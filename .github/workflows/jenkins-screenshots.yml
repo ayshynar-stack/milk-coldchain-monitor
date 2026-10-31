@@ -1,0 +1,51 @@
+name: Jenkins pipeline demo (screenshots)
+
+# Starts the real Jenkins from docker-compose.jenkins.yml on a GitHub runner,
+# runs the Jenkinsfile twice (by hand and by a new commit) and saves screenshots
+# of Jenkins and of the deployed service as a downloadable artifact.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # to push the empty commit that triggers build #2
+
+concurrency:
+  group: jenkins-demo
+  cancel-in-progress: false
+
+jobs:
+  jenkins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start Jenkins (Docker Compose)
+        env:
+          REPO_URL: https://github.com/${{ github.repository }}.git
+        run: docker compose -f docker-compose.jenkins.yml up -d --build
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install screenshot tools
+        run: |
+          pip install requests playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Run the pipeline and take screenshots
+        run: python scripts/jenkins_screenshots.py
+
+      - name: Jenkins log (on failure)
+        if: failure()
+        run: docker logs jenkins 2>&1 | tail -200
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jenkins-screenshots
+          path: screenshots/
