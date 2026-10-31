@@ -1,0 +1,15 @@
+$ docker image ls coldchain-monitor
+REPOSITORY          TAG       IMAGE ID       CREATED              SIZE
+coldchain-monitor   1         f3c702cfc59a   About a minute ago   284MB
+coldchain-monitor   2         f3c702cfc59a   About a minute ago   284MB
+coldchain-monitor   latest    f3c702cfc59a   About a minute ago   284MB
+
+$ docker ps
+CONTAINER ID   IMAGE                            COMMAND                  CREATED         STATUS                            PORTS                                                    NAMES
+9677061adb36   coldchain-monitor:2              "coldchain serve --h…"   4 seconds ago   Up 4 seconds (health: starting)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp              coldchain-staging
+d31e48eba7a3   milk-coldchain-monitor-jenkins   "/usr/bin/tini -- /u…"   2 minutes ago   Up 2 minutes                      0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp, 50000/tcp   jenkins
+
+$ curl -s http://localhost:8000/health
+{"status": "ok", "version": "0.2.0"}
+$ curl -s 'http://localhost:8000/forecast?hours=3'
+{"readings": 2017, "latest": 2.0, "hours": 3, "limit": 4.0, "persistence": 2.0, "moving_average": 2.0, "linear_trend": 2.0, "arima": 2.0, "arima_max": 2.0, "status": "ok", "tier2_active": false, "source": "example_log"}

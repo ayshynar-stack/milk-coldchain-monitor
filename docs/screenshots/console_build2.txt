@@ -1,0 +1,279 @@
+Started by an SCM change
+Obtained Jenkinsfile from git https://github.com/ayshynar-stack/milk-coldchain-monitor.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/coldchain-monitor
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/coldchain-monitor/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/ayshynar-stack/milk-coldchain-monitor.git # timeout=10
+Fetching upstream changes from https://github.com/ayshynar-stack/milk-coldchain-monitor.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/ayshynar-stack/milk-coldchain-monitor.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision e263db4eb6ceaa153476b73610100c3ee914fcd5 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f e263db4eb6ceaa153476b73610100c3ee914fcd5 # timeout=10
+Commit message: "ci: commit to demonstrate the Jenkins SCM trigger"
+ > git rev-list --no-walk 5bf4272101a5c8a9325f821ef8b311ed1889e25e # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+[2026-10-31T05:51:10.656Z] Selected Git installation does not exist. Using Default
+[2026-10-31T05:51:10.656Z] The recommended git tool is: NONE
+[2026-10-31T05:51:10.656Z] No credentials specified
+[2026-10-31T05:51:10.656Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/coldchain-monitor/.git # timeout=10
+[2026-10-31T05:51:10.662Z] Fetching changes from the remote Git repository
+[2026-10-31T05:51:10.663Z]  > git config remote.origin.url https://github.com/ayshynar-stack/milk-coldchain-monitor.git # timeout=10
+[2026-10-31T05:51:10.667Z] Fetching upstream changes from https://github.com/ayshynar-stack/milk-coldchain-monitor.git
+[2026-10-31T05:51:10.667Z]  > git --version # timeout=10
+[2026-10-31T05:51:10.670Z]  > git --version # 'git version 2.47.3'
+[2026-10-31T05:51:10.670Z]  > git fetch --tags --force --progress -- https://github.com/ayshynar-stack/milk-coldchain-monitor.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-31T05:51:10.838Z]  > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+[2026-10-31T05:51:10.841Z] Checking out Revision e263db4eb6ceaa153476b73610100c3ee914fcd5 (refs/remotes/origin/main)
+[2026-10-31T05:51:10.842Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-31T05:51:10.844Z]  > git checkout -f e263db4eb6ceaa153476b73610100c3ee914fcd5 # timeout=10
+[2026-10-31T05:51:10.848Z] Commit message: "ci: commit to demonstrate the Jenkins SCM trigger"
+[Pipeline] sh
+[2026-10-31T05:51:11.107Z] + git log -1 --pretty=format:%h %an: %s
+[2026-10-31T05:51:11.107Z] e263db4 github-actions[bot]: ci: commit to demonstrate the Jenkins SCM trigger
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Unit tests)
+[Pipeline] sh
+[2026-10-31T05:51:11.393Z] + docker build --target test -t coldchain-monitor-test:2 .
+[2026-10-31T05:51:11.393Z] DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+[2026-10-31T05:51:11.393Z]             Install the buildx component to build images with BuildKit:
+[2026-10-31T05:51:11.393Z]             https://docs.docker.com/go/buildx/
+[2026-10-31T05:51:11.393Z] 
+[2026-10-31T05:51:11.393Z] Sending build context to Docker daemon  139.8kB[2026-10-31T05:51:11.393Z] 
+[2026-10-31T05:51:11.393Z] Step 1/12 : ARG PYTHON_IMAGE=python:3.12-slim
+[2026-10-31T05:51:11.393Z] Step 2/12 : FROM ${PYTHON_IMAGE} AS base
+[2026-10-31T05:51:11.393Z]  ---> ae4e8b7c575f
+[2026-10-31T05:51:11.393Z] Step 3/12 : ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1     PIP_DISABLE_PIP_VERSION_CHECK=1     MPLBACKEND=Agg
+[2026-10-31T05:51:11.393Z]  ---> Using cache
+[2026-10-31T05:51:11.393Z]  ---> fb5b35c9f04b
+[2026-10-31T05:51:11.393Z] Step 4/12 : WORKDIR /app
+[2026-10-31T05:51:11.393Z]  ---> Using cache
+[2026-10-31T05:51:11.393Z]  ---> 4d96b1e356d5
+[2026-10-31T05:51:11.393Z] Step 5/12 : COPY pyproject.toml README.md LICENSE ./
+[2026-10-31T05:51:11.393Z]  ---> Using cache
+[2026-10-31T05:51:11.393Z]  ---> 0b6c8da8fdf4
+[2026-10-31T05:51:11.393Z] Step 6/12 : COPY src ./src
+[2026-10-31T05:51:11.393Z]  ---> Using cache
+[2026-10-31T05:51:11.393Z]  ---> 0add6e98a9e9
+[2026-10-31T05:51:11.393Z] Step 7/12 : RUN pip install .
+[2026-10-31T05:51:11.393Z]  ---> Using cache
+[2026-10-31T05:51:11.393Z]  ---> a5fb00adb351
+[2026-10-31T05:51:11.393Z] Step 8/12 : FROM base AS test
+[2026-10-31T05:51:11.393Z]  ---> a5fb00adb351
+[2026-10-31T05:51:11.393Z] Step 9/12 : RUN pip install "pytest>=7.4" "pytest-cov>=4.1"
+[2026-10-31T05:51:11.393Z]  ---> Running in fc607be3db5a
+[2026-10-31T05:51:12.304Z] Collecting pytest>=7.4
+[2026-10-31T05:51:12.304Z]   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+[2026-10-31T05:51:12.304Z] Collecting pytest-cov>=4.1
+[2026-10-31T05:51:12.305Z]   Downloading pytest_cov-7.1.0-py3-none-any.whl.metadata (32 kB)
+[2026-10-31T05:51:12.305Z] Collecting iniconfig>=2 (from pytest>=7.4)
+[2026-10-31T05:51:12.305Z]   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+[2026-10-31T05:51:12.305Z] Requirement already satisfied: packaging>=24 in /usr/local/lib/python3.12/site-packages (from pytest>=7.4) (26.3)
+[2026-10-31T05:51:12.305Z] Collecting pluggy<2,>=1.6 (from pytest>=7.4)
+[2026-10-31T05:51:12.305Z]   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+[2026-10-31T05:51:12.305Z] Collecting pygments>=2.15 (from pytest>=7.4)
+[2026-10-31T05:51:12.305Z]   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+[2026-10-31T05:51:12.555Z] Collecting coverage>=7.10.6 (from coverage[toml]>=7.10.6->pytest-cov>=4.1)
+[2026-10-31T05:51:12.555Z]   Downloading coverage-7.17.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.1 kB)
+[2026-10-31T05:51:12.555Z] Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+[2026-10-31T05:51:12.555Z] Downloading pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+[2026-10-31T05:51:12.555Z] Downloading coverage-7.17.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (261 kB)
+[2026-10-31T05:51:12.555Z] Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+[2026-10-31T05:51:12.555Z] Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+[2026-10-31T05:51:12.555Z] Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+[2026-10-31T05:51:12.555Z]    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 92.0 MB/s eta 0:00:00
+[2026-10-31T05:51:12.555Z] Installing collected packages: pygments, pluggy, iniconfig, coverage, pytest, pytest-cov
+[2026-10-31T05:51:13.466Z] Successfully installed coverage-7.17.0 iniconfig-2.3.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 pytest-cov-7.1.0
+[2026-10-31T05:51:13.466Z] [91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+[2026-10-31T05:51:14.377Z] [0m ---> Removed intermediate container fc607be3db5a
+[2026-10-31T05:51:14.378Z]  ---> 9c371a3a713a
+[2026-10-31T05:51:14.378Z] Step 10/12 : COPY tests ./tests
+[2026-10-31T05:51:15.289Z]  ---> d58808792026
+[2026-10-31T05:51:15.289Z] Step 11/12 : COPY data ./data
+[2026-10-31T05:51:16.200Z]  ---> d7188dc4a37a
+[2026-10-31T05:51:16.200Z] Step 12/12 : CMD ["sh", "-c", "mkdir -p reports && python -m pytest -q --junitxml=reports/junit.xml --cov=coldchain_monitor --cov-report=xml:reports/coverage.xml"]
+[2026-10-31T05:51:16.200Z]  ---> Running in fff2971b2fe5
+[2026-10-31T05:51:17.111Z]  ---> Removed intermediate container fff2971b2fe5
+[2026-10-31T05:51:17.111Z]  ---> b174855def89
+[2026-10-31T05:51:17.111Z] Successfully built b174855def89
+[2026-10-31T05:51:17.111Z] Successfully tagged coldchain-monitor-test:2
+[Pipeline] sh
+[2026-10-31T05:51:17.371Z] + docker run --name coldchain-test-2 coldchain-monitor-test:2
+[2026-10-31T05:51:20.376Z] ..................................................... [ 72%]
+[2026-10-31T05:51:20.927Z] ....................                                                     [100%]
+[2026-10-31T05:51:20.927Z] ================================ tests coverage ================================
+[2026-10-31T05:51:20.927Z] _______________ coverage: platform linux, python 3.12.16-final-0 _______________
+[2026-10-31T05:51:20.927Z] 
+[2026-10-31T05:51:20.927Z] Coverage XML written to file reports/coverage.xml
+[2026-10-31T05:51:20.927Z] 73 passed, 19 subtests passed in 3.14s
+Post stage
+[Pipeline] sh
+[2026-10-31T05:51:21.190Z] + rm -rf reports
+[2026-10-31T05:51:21.190Z] + docker cp coldchain-test-2:/app/reports ./reports
+[2026-10-31T05:51:21.190Z] + docker rm -f coldchain-test-2
+[2026-10-31T05:51:21.190Z] coldchain-test-2
+[Pipeline] junit
+[2026-10-31T05:51:21.197Z] Recording test results
+[2026-10-31T05:51:21.203Z] [Checks API] No suitable checks publisher found.
+[Pipeline] archiveArtifacts
+[2026-10-31T05:51:21.209Z] Archiving artifacts
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build image)
+[Pipeline] sh
+[2026-10-31T05:51:21.493Z] + docker build --target runtime -t coldchain-monitor:2 -t coldchain-monitor:latest .
+[2026-10-31T05:51:21.493Z] DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+[2026-10-31T05:51:21.493Z]             Install the buildx component to build images with BuildKit:
+[2026-10-31T05:51:21.493Z]             https://docs.docker.com/go/buildx/
+[2026-10-31T05:51:21.493Z] 
+[2026-10-31T05:51:21.493Z] Sending build context to Docker daemon  139.8kB[2026-10-31T05:51:21.493Z] 
+[2026-10-31T05:51:21.493Z] Step 1/19 : ARG PYTHON_IMAGE=python:3.12-slim
+[2026-10-31T05:51:21.493Z] Step 2/19 : FROM ${PYTHON_IMAGE} AS base
+[2026-10-31T05:51:21.493Z]  ---> ae4e8b7c575f
+[2026-10-31T05:51:21.493Z] Step 3/19 : ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1     PIP_DISABLE_PIP_VERSION_CHECK=1     MPLBACKEND=Agg
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> fb5b35c9f04b
+[2026-10-31T05:51:21.493Z] Step 4/19 : WORKDIR /app
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 4d96b1e356d5
+[2026-10-31T05:51:21.493Z] Step 5/19 : COPY pyproject.toml README.md LICENSE ./
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 0b6c8da8fdf4
+[2026-10-31T05:51:21.493Z] Step 6/19 : COPY src ./src
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 0add6e98a9e9
+[2026-10-31T05:51:21.493Z] Step 7/19 : RUN pip install .
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> a5fb00adb351
+[2026-10-31T05:51:21.493Z] Step 8/19 : FROM base AS test
+[2026-10-31T05:51:21.493Z]  ---> a5fb00adb351
+[2026-10-31T05:51:21.493Z] Step 9/19 : RUN pip install "pytest>=7.4" "pytest-cov>=4.1"
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 9c371a3a713a
+[2026-10-31T05:51:21.493Z] Step 10/19 : COPY tests ./tests
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> d58808792026
+[2026-10-31T05:51:21.493Z] Step 11/19 : COPY data ./data
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> d7188dc4a37a
+[2026-10-31T05:51:21.493Z] Step 12/19 : CMD ["sh", "-c", "mkdir -p reports && python -m pytest -q --junitxml=reports/junit.xml --cov=coldchain_monitor --cov-report=xml:reports/coverage.xml"]
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> b174855def89
+[2026-10-31T05:51:21.493Z] Step 13/19 : FROM base AS runtime
+[2026-10-31T05:51:21.493Z]  ---> a5fb00adb351
+[2026-10-31T05:51:21.493Z] Step 14/19 : COPY data ./data
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 3b14758614a4
+[2026-10-31T05:51:21.493Z] Step 15/19 : RUN useradd --create-home --uid 10001 app
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 81a7f7bd584b
+[2026-10-31T05:51:21.493Z] Step 16/19 : USER app
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> c5fd81a3e16a
+[2026-10-31T05:51:21.493Z] Step 17/19 : EXPOSE 8000
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> bed7a09396a0
+[2026-10-31T05:51:21.493Z] Step 18/19 : HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)" || exit 1
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> 9361b4722e41
+[2026-10-31T05:51:21.493Z] Step 19/19 : CMD ["coldchain", "serve", "--host", "0.0.0.0", "--port", "8000"]
+[2026-10-31T05:51:21.493Z]  ---> Using cache
+[2026-10-31T05:51:21.493Z]  ---> f3c702cfc59a
+[2026-10-31T05:51:21.493Z] Successfully built f3c702cfc59a
+[2026-10-31T05:51:21.493Z] Successfully tagged coldchain-monitor:2
+[2026-10-31T05:51:21.493Z] Successfully tagged coldchain-monitor:latest
+[Pipeline] sh
+[2026-10-31T05:51:21.753Z] + docker image ls coldchain-monitor
+[2026-10-31T05:51:21.753Z] IMAGE                      ID             DISK USAGE   CONTENT SIZE   EXTRA
+[2026-10-31T05:51:21.753Z] coldchain-monitor:1        f3c702cfc59a        284MB             0B        
+[2026-10-31T05:51:21.753Z] coldchain-monitor:2        f3c702cfc59a        284MB             0B        
+[2026-10-31T05:51:21.753Z] coldchain-monitor:latest   f3c702cfc59a        284MB             0B        
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Smoke test)
+[Pipeline] sh
+[2026-10-31T05:51:22.036Z] + docker run --rm coldchain-monitor:2 coldchain --version
+[2026-10-31T05:51:22.287Z] coldchain 0.2.0
+[Pipeline] sh
+[2026-10-31T05:51:22.546Z] + docker run --rm coldchain-monitor:2 coldchain forecast data/example_log.csv --hours 3
+[2026-10-31T05:51:22.797Z] Log example_log: 2017 readings, latest 2.00 °C
+[2026-10-31T05:51:22.797Z] Forecast for +3 h:
+[2026-10-31T05:51:22.797Z]   Persistence       2.00 °C
+[2026-10-31T05:51:22.797Z]   Moving average    2.00 °C
+[2026-10-31T05:51:22.797Z]   Linear trend      2.00 °C
+[2026-10-31T05:51:22.797Z]   ARIMA(5,1,0)      2.00 °C (highest on the way: 2.00 °C)
+[2026-10-31T05:51:22.797Z] Status: ok, no excursion above 4 °C expected by ARIMA
+[2026-10-31T05:51:22.797Z] Tier 2 trigger: inactive
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to Docker Hub)
+Stage "Push to Docker Hub" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to staging)
+[Pipeline] sh
+[2026-10-31T05:51:23.108Z] + docker rm -f coldchain-staging
+[2026-10-31T05:51:23.108Z] coldchain-staging
+[2026-10-31T05:51:23.108Z] + docker run -d --name coldchain-staging --restart unless-stopped -p 8000:8000 coldchain-monitor:2
+[2026-10-31T05:51:23.108Z] 9677061adb363d65ce07d17ff407702bc495eb503fa75856dba1be8387edbb68
+[2026-10-31T05:51:23.108Z] + docker exec coldchain-staging python -c import urllib.request; print(urllib.request.urlopen('http://localhost:8000/health', timeout=2).read().decode())
+[2026-10-31T05:51:23.359Z] + sleep 2
+[2026-10-31T05:51:25.841Z] + docker exec coldchain-staging python -c import urllib.request; print(urllib.request.urlopen('http://localhost:8000/health', timeout=2).read().decode())
+[2026-10-31T05:51:25.841Z] {"status": "ok", "version": "0.2.0"}
+[2026-10-31T05:51:25.841Z] + exit 0
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] sh
+[2026-10-31T05:51:26.120Z] + docker image rm coldchain-monitor-test:2
+[2026-10-31T05:51:26.120Z] Untagged: coldchain-monitor-test:2
+[2026-10-31T05:51:26.120Z] Deleted: sha256:b174855def89178829099f01a8d968480d746c472f30b16dec80395f1f628d64
+[2026-10-31T05:51:26.120Z] Deleted: sha256:d7188dc4a37abb27ca18a87ad815367c6649a98d0576a4c11abf5a2f03485322
+[2026-10-31T05:51:26.120Z] Deleted: sha256:79c0ebc958b50f71e60e000d3a7294a58adef821ab6f6aa1941e500a281b005d
+[2026-10-31T05:51:26.120Z] Deleted: sha256:d58808792026a7a066afc35b0e0599e20ba11c5bf41b05778897b31b538aca37
+[2026-10-31T05:51:26.120Z] Deleted: sha256:50f270cacdf2b93c6fd1f6e4fb0b194d186c5df1421e78d019a8bbb94e90d5de
+[2026-10-31T05:51:26.120Z] Deleted: sha256:9c371a3a713a7ced47d62d6c531ea345ced426d79d1bc4facec75e1976183942
+[2026-10-31T05:51:26.120Z] Deleted: sha256:61b0153b64f04401cac477e3fe9dba981fffee8e79c2812b63044be2417be367
+[Pipeline] echo
+[2026-10-31T05:51:26.131Z] Build 2 passed: image coldchain-monitor:2
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

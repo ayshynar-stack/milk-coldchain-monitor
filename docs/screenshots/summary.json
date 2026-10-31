@@ -1,0 +1,7 @@
+{
+  "build1": "SUCCESS",
+  "build2": "SUCCESS",
+  "build2_causes": [
+    "Started by an SCM change"
+  ]
+}
